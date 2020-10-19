@@ -5,7 +5,7 @@ module.exports = {
   development: {
     database: 'store_app',
     username: 'paratskiy',
-    password: '0632514820',
+    password: 'paratskiy',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
@@ -13,7 +13,7 @@ module.exports = {
   test: {
     database: 'store_app_test',
     username: 'paratskiy',
-    password: '0632514820',
+    password: 'paratskiy',
     host: '127.0.0.1',
     dialect: 'postgres'
   },
