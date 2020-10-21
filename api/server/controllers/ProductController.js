@@ -20,7 +20,7 @@ class ProductController {
   }
 
   static async addProduct(req, res) {
-    if (!req.body.title || !req.body.price || !req.body.description) {
+    if (!req.body.title || !req.body.price || !req.body.description || !req.body.categoryId) {
       util.setError(400, 'Please provide complete details');
       return util.send(res);
     }
