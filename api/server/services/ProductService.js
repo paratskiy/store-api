@@ -79,6 +79,17 @@ class ProductService {
       throw error;
     }
   }
+
+  static async getProductProviders(id) {
+    try {
+      return database.Product.findByPk(id, { include: ['providers'] })
+        .then((findProduct) => {
+          return findProduct.get().providers
+        })
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default ProductService;
