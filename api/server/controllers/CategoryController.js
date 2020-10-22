@@ -78,6 +78,29 @@ class CategoryController {
       return util.send(res);
     }
   }
+
+  static async getCategoryWithProducts(req, res) {
+    const { id } = req.params;
+
+    if (!Number(id)) {
+      util.setError(400, 'Please input a valid numeric value');
+      return util.send(res);
+    }
+
+    try {
+      const theCategory = await CategoryService.getCategoryWithProducts(id);
+
+      if (!theCategory) {
+        util.setError(404, `Cannot find category with the id ${id}`);
+      } else {
+        util.setSuccess(200, 'Found Category', theCategory);
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
+      return util.send(res);
+    }
+  }
 }
 
 export default CategoryController;

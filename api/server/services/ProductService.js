@@ -67,13 +67,13 @@ class ProductService {
       const theProduct = database.Product.findOne({
         where: { id: Number(id) }, include: 'category'
       })
-      .then((findProduct) => {
-        // Get the Product with Category datas included
-        return findProduct
-        // Get the category record only
-        // return findProduct.category 
-      })
-      
+        .then((findProduct) => {
+          // Get the Product with Category datas included
+          return findProduct
+          // Get the category record only
+          // return findProduct.category 
+        })
+
       return theProduct;
     } catch (error) {
       throw error;

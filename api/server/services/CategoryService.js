@@ -45,6 +45,22 @@ class CategoryService {
       throw error;
     }
   }
+
+  static async getCategoryWithProducts(id) {
+    try {
+      const theCategory = database.Category.findByPk(id, { include: ['products'] })
+        .then((category) => {
+          // Get the Category with Products (employes) datas included
+          return category
+          // Get the Products (employes) records only
+          // return company.get().employes
+        })
+
+      return theCategory;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default CategoryService;
