@@ -20,7 +20,7 @@ class ProviderController {
   }
 
   static async addProvider(req, res) {
-    if (!req.body.title || !req.body.price || !req.body.description || !req.body.categoryId) {
+    if (!req.body.name) {
       util.setError(400, 'Please provide complete details');
       return util.send(res);
     }
