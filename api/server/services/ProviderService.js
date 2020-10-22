@@ -61,6 +61,17 @@ class ProviderService {
       throw error;
     }
   }
+
+  static async getProviderProducts(id) {
+    try {
+      return database.Provider.findByPk(id, { include: ['products'] })
+        .then((findProvider) => {
+          return findProvider.get().products
+        })
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default ProviderService;

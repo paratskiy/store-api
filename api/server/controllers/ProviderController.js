@@ -101,6 +101,29 @@ class ProviderController {
       return util.send(res);
     }
   }
+
+  static async getProviderProducts(req, res) {
+    const { id } = req.params;
+    console.log(id)
+    if (!Number(id)) {
+      util.setError(400, 'Please input a valid numeric value');
+      return util.send(res);
+    }
+
+    try {
+      const providerProducts = await ProviderService.getProviderProducts(id);
+
+      if (!providerProducts) {
+        util.setError(404, `Cannot find provider with the id ${id}`);
+      } else {
+        util.setSuccess(200, 'Found Provider', providerProducts);
+      }
+      return util.send(res);
+    } catch (error) {
+      util.setError(404, error);
+      return util.send(res);
+    }
+  }
 }
 
 export default ProviderController;
