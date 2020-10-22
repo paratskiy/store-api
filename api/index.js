@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import productRoutes from './server/routes/ProductRoutes';
 import categoryRoutes from './server/routes/CategoryRoutes';
 import providerRoutes from './server/routes/ProviderRoutes';
+import mainRoutes from './server/routes/MainRoutes';
 
 config.config();
 
@@ -17,6 +18,7 @@ const port = process.env.PORT || 8000;
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/providers', providerRoutes);
+app.use('/api/v1/', mainRoutes);
 
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({
