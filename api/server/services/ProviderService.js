@@ -19,13 +19,11 @@ class ProviderService {
 
   static async updateProvider(id, updateProvider) {
     try {
-      const providerToUpdate = await database.Provider.findOne({
-        where: { id: Number(id) }
-      });
+      const providerToUpdate = await database.Provider.findByPk(id);
 
       if (providerToUpdate) {
-        await database.Provider.update(updateProvider, { where: { id: Number(id) } });
-
+        await providerToUpdate.update(updateProvider)
+        
         return updateProvider;
       }
       return null;
@@ -36,9 +34,7 @@ class ProviderService {
 
   static async getAProvider(id) {
     try {
-      const theProvider = await database.Provider.findOne({
-        where: { id: Number(id) }
-      });
+      const theProvider = await database.Provider.findByPk(id);
 
       return theProvider;
     } catch (error) {
@@ -48,12 +44,11 @@ class ProviderService {
 
   static async deleteProvider(id) {
     try {
-      const providerToDelete = await database.Provider.findOne({ where: { id: Number(id) } });
+      const providerToDelete = await database.Provider.findByPk(id);
 
       if (providerToDelete) {
-        const deletedProvider = await database.Provider.destroy({
-          where: { id: Number(id) }
-        });
+        await providerToDelete.destroy()
+
         return deletedProvider;
       }
       return null;

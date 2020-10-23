@@ -19,12 +19,11 @@ class CategoryService {
 
   static async updateCategory(id, updateCategory) {
     try {
-      const categoryToUpdate = await database.Category.findOne({
-        where: { id: Number(id) }
-      });
+      const categoryToUpdate = await database.Category.findByPk(id);
 
       if (categoryToUpdate) {
-        await database.Category.update(updateCategory, { where: { id: Number(id) } });
+
+        await categoryToUpdate.update(updateCategory)
 
         return updateCategory;
       }
@@ -36,9 +35,7 @@ class CategoryService {
 
   static async getACategory(id) {
     try {
-      const theCategory = await database.Category.findOne({
-        where: { id: Number(id) }
-      });
+      const theCategory = await database.Category.findByPk(id);
 
       return theCategory;
     } catch (error) {
