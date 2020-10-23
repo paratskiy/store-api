@@ -19,15 +19,9 @@ class ProviderService {
 
   static async updateProvider(id, updateProvider) {
     try {
-      const providerToUpdate = await database.Provider.findOne({
-        where: { id: Number(id) }
-      });
+      const providerToUpdate = await database.Provider.findByPk(id);
+      if (providerToUpdate) return await providerToUpdate.update(updateProvider);
 
-      if (providerToUpdate) {
-        await database.Provider.update(updateProvider, { where: { id: Number(id) } });
-
-        return updateProvider;
-      }
       return null;
     } catch (error) {
       throw error;
@@ -36,11 +30,7 @@ class ProviderService {
 
   static async getAProvider(id) {
     try {
-      const theProvider = await database.Provider.findOne({
-        where: { id: Number(id) }
-      });
-
-      return theProvider;
+      return await database.Provider.findByPk(id);
     } catch (error) {
       throw error;
     }
@@ -48,14 +38,9 @@ class ProviderService {
 
   static async deleteProvider(id) {
     try {
-      const providerToDelete = await database.Provider.findOne({ where: { id: Number(id) } });
+      const providerToDelete = await database.Provider.findByPk(id);
+      if (providerToDelete) return await providerToDelete.destroy();
 
-      if (providerToDelete) {
-        const deletedProvider = await database.Provider.destroy({
-          where: { id: Number(id) }
-        });
-        return deletedProvider;
-      }
       return null;
     } catch (error) {
       throw error;
@@ -64,10 +49,10 @@ class ProviderService {
 
   static async getProviderProducts(id) {
     try {
-      return database.Provider.findByPk(id, { include: ['products'] })
-        .then((findProvider) => {
-          return findProvider.get().products
-        })
+      const provider = await database.Provider.findByPk(id, { include: ['products'] });
+      if (provider) return provider.get().products;
+
+      return null;
     } catch (error) {
       throw error;
     }

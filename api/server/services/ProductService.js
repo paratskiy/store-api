@@ -19,15 +19,9 @@ class ProductService {
 
   static async updateProduct(id, updateProduct) {
     try {
-      const productToUpdate = await database.Product.findOne({
-        where: { id: Number(id) }
-      });
+      const productToUpdate = await database.Product.findByPk(id);
+      if (productToUpdate) return productToUpdate.update(updateProduct);
 
-      if (productToUpdate) {
-        await database.Product.update(updateProduct, { where: { id: Number(id) } });
-
-        return updateProduct;
-      }
       return null;
     } catch (error) {
       throw error;
@@ -36,11 +30,7 @@ class ProductService {
 
   static async getAProduct(id) {
     try {
-      const theProduct = await database.Product.findOne({
-        where: { id: Number(id) }
-      });
-
-      return theProduct;
+      return await database.Product.findByPk(id);
     } catch (error) {
       throw error;
     }
@@ -48,14 +38,9 @@ class ProductService {
 
   static async deleteProduct(id) {
     try {
-      const productToDelete = await database.Product.findOne({ where: { id: Number(id) } });
+      const productToDelete = await database.Product.findByPk(id);
+      if (productToDelete) return productToDelete.destroy();
 
-      if (productToDelete) {
-        const deletedProduct = await database.Product.destroy({
-          where: { id: Number(id) }
-        });
-        return deletedProduct;
-      }
       return null;
     } catch (error) {
       throw error;
@@ -64,17 +49,7 @@ class ProductService {
 
   static async getAProductWithCategory(id) {
     try {
-      const theProduct = database.Product.findOne({
-        where: { id: Number(id) }, include: 'category'
-      })
-        .then((findProduct) => {
-          // Get the Product with Category datas included
-          return findProduct
-          // Get the category record only
-          // return findProduct.category 
-        })
-
-      return theProduct;
+      return await database.Product.findByPk(id, { include: 'category' });
     } catch (error) {
       throw error;
     }
@@ -82,10 +57,10 @@ class ProductService {
 
   static async getProductProviders(id) {
     try {
-      return database.Product.findByPk(id, { include: ['providers'] })
-        .then((findProduct) => {
-          return findProduct.get().providers
-        })
+      const product = await database.Product.findByPk(id, { include: ['providers'] });
+      if(product) return product.get().providers;
+
+      return null;
     } catch (error) {
       throw error;
     }

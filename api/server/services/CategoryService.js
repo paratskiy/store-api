@@ -19,15 +19,9 @@ class CategoryService {
 
   static async updateCategory(id, updateCategory) {
     try {
-      const categoryToUpdate = await database.Category.findOne({
-        where: { id: Number(id) }
-      });
+      const categoryToUpdate = await database.Category.findByPk(id);
+      if (categoryToUpdate) return categoryToUpdate.update(updateCategory);
 
-      if (categoryToUpdate) {
-        await database.Category.update(updateCategory, { where: { id: Number(id) } });
-
-        return updateCategory;
-      }
       return null;
     } catch (error) {
       throw error;
@@ -36,11 +30,7 @@ class CategoryService {
 
   static async getACategory(id) {
     try {
-      const theCategory = await database.Category.findOne({
-        where: { id: Number(id) }
-      });
-
-      return theCategory;
+      return await database.Category.findByPk(id);
     } catch (error) {
       throw error;
     }
@@ -48,15 +38,7 @@ class CategoryService {
 
   static async getCategoryWithProducts(id) {
     try {
-      const theCategory = database.Category.findByPk(id, { include: ['products'] })
-        .then((category) => {
-          // Get the Category with Products (employes) datas included
-          return category
-          // Get the Products (employes) records only
-          // return company.get().employes
-        })
-
-      return theCategory;
+      return database.Category.findByPk(id, { include: ['products'] });
     } catch (error) {
       throw error;
     }
